@@ -9,7 +9,7 @@ router.get('/class/:class', async (req, res) => {
         res.json(tests);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Failed to fetch tests' });
+        res.status(500).json({ message: 'Failed to fetch tests', error: error.message }); // Added error message
     }
 });
 
