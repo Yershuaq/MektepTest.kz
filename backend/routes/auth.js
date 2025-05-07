@@ -10,7 +10,7 @@ router.post('/register', async (req, res) => {
 
         const existingUser = await User.findOne({ username });
         if (existingUser) {
-            return res.status(400).json({ message: 'Username already taken' });
+            return res.status(400).json({ message: 'Username already taken', error: 'Username already taken' }); // Added error message
         }
 
         const newUser = new User({ username, password });
@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Registration failed' });
+        res.status(500).json({ message: 'Registration failed', error: error.message }); // Added error message
     }
 });
 
@@ -30,12 +30,12 @@ router.post('/login', async (req, res) => {
 
         const user = await User.findOne({ username });
         if (!user) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ message: 'Invalid credentials', error: 'Invalid credentials' }); // Added error message
         }
 
         const isPasswordValid = await user.comparePassword(password);
         if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ message: 'Invalid credentials', error: 'Invalid credentials' }); // Added error message
         }
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -44,7 +44,7 @@ router.post('/login', async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Login failed' });
+        res.status(500).json({ message: 'Login failed', error: error.message }); // Added error message
     }
 });
 

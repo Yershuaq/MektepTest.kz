@@ -10,8 +10,8 @@
     <style>
         .options-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Two columns */
-            gap: 10px; /* Spacing between options */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
         }
 
         .form-check {
@@ -62,7 +62,7 @@
     testTitle.textContent = `${classNumber} сынып. Тест ${testNumber}`;
 
     // Fetch the test questions
-    fetch(`/test/class/${classNumber}`)
+    fetch(`http://localhost:5000/test/class/${classNumber}`)
         .then(response => response.json())
         .then(tests => {
             const currentTest = tests.find(test => test.testNumber === parseInt(testNumber));
@@ -118,14 +118,19 @@
 
         if (!allAnswered) return;
 
-        fetch(`/test/class/${classNumber}/${testNumber}/submit`, {
+        fetch(`http://localhost:5000/test/class/${classNumber}/${testNumber}/submit`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ answers: answers }),
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 // Display the score
                 resultsDiv.innerHTML = `<p>Сіздің ұпайыңыз: ${data.score} / ${answers.length}</p>`;
@@ -136,7 +141,7 @@
             })
             .catch(error => {
                 console.error('Error submitting test:', error);
-                resultsDiv.innerHTML = '<p>Тест тапсыру қатесі</p>';
+                resultsDiv.innerHTML = `<p>Тест тапсыру қатесі: ${error.message || 'Unknown error'}</p>`; // Show error message
             });
     });
 </script>
