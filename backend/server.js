@@ -11,7 +11,12 @@ const port = process.env.PORT || 5000;
 
 connectDB();
 
-app.use(cors()); // Allow all origins
+app.use(cors({
+    origin: 'http://localhost:63343', // Или точный адрес Frontend (без пути к файлу)
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    allowedHeaders: 'Content-Type',
+}));
 app.use(express.json());
 
 app.get('/', (req, res) => {

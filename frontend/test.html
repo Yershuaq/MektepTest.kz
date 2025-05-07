@@ -118,7 +118,7 @@
 
         if (!allAnswered) return;
 
-        fetch(`http://localhost:5000/test/class/${classNumber}/${testNumber}/submit`, { // И ТУТ ТОЖЕ
+        fetch('http://localhost:5000/submit-test', { // МАКСИМАЛЬНО ПРОСТОЙ URL
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -134,10 +134,6 @@
             .then(data => {
                 // Display the score
                 resultsDiv.innerHTML = `<p>Сіздің ұпайыңыз: ${data.score} / ${answers.length}</p>`;
-
-                // Optionally, you can redirect to the results page
-                // localStorage.setItem('testResults', JSON.stringify({ score: data.score, totalQuestions: answers.length, answers: [] }));
-                // window.location.href = 'results.html';
             })
             .catch(error => {
                 console.error('Error submitting test:', error);

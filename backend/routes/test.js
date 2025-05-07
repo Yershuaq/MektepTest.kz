@@ -13,23 +13,16 @@ router.get('/class/:class', async (req, res) => {
     }
 });
 
-router.post('/test/class/:class/:test_number/submit', async (req, res) => { // ТОЧНО ТАКОЙ МАРШРУТ
+router.post('/submit-test', async (req, res) => { // МАКСИМАЛЬНО ПРОСТОЙ МАРШРУТ
     try {
-        const { class: classNumber, test_number } = req.params; // ТОЧНО ТАКОЙ МАРШРУТ
         const { answers } = req.body;
 
         let score = 0;
-        const test = await Test.findOne({ class: parseInt(classNumber), testNumber: parseInt(test_number) }); // ТОЧНО ТАКОЙ МАРШРУТ
-        if (test) {
-            test.questions.forEach((question, index) => {
-                if (question.correctAnswer === answers[index]) {
-                    score++;
-                }
-            });
-        }
+        // Временно вернем просто 0, чтобы проверить, работает ли маршрут
+        console.log("Answers received:", answers); // Log the answers
+        score = 0;
 
-        console.log(`Results submitted for class ${classNumber}, test ${test_number}. Score: ${score}`); // И ТУТ ТОЖЕ
-        res.json({ message: 'Results submitted successfully', score: score });
+        res.json({ message: 'Test submitted successfully', score: score });
 
     } catch (error) {
         console.error(error);
