@@ -118,7 +118,7 @@
 
         if (!allAnswered) return;
 
-        fetch(`http://localhost:5000/test/class/${classNumber}/${testNumber}/submit`, {
+        fetch(`http://localhost:5000/test/class/${classNumber}/${testNumber}/submit`, { // И ТУТ ТОЖЕ
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -141,7 +141,7 @@
             })
             .catch(error => {
                 console.error('Error submitting test:', error);
-                resultsDiv.innerHTML = `<p>Тест тапсыру қатесі: ${error.message || 'Unknown error'}</p>`; // Show error message
+                resultsDiv.innerHTML = `<p>Тест тапсыру қатесі: ${error.message || 'Unknown error'}</p>`;
             });
     });
 </script>
