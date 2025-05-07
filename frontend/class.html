@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MektepTest.kz - Класс</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="index.html">MektepTest.kz</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="login.html">Логин</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="register.html">Регистрация</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h1 id="class-title"></h1>
+    <div class="row">
+        <div class="col-md-4 mt-3">
+            <a href="#" class="btn btn-secondary btn-block btn-lg test-link" data-test="1">Тест 1</a>
+        </div>
+        <div class="col-md-4 mt-3">
+            <a href="#" class="btn btn-secondary btn-block btn-lg test-link" data-test="2">Тест 2</a>
+        </div>
+        <div class="col-md-4 mt-3">
+            <a href="#" class="btn btn-secondary btn-block btn-lg test-link" data-test="3">Тест 3</a>
+        </div>
+        <div class="col-md-4 mt-3">
+            <a href="#" class="btn btn-secondary btn-block btn-lg test-link" data-test="4">Тест 4</a>
+        </div>
+        <div class="col-md-4 mt-3">
+            <a href="#" class="btn btn-secondary btn-block btn-lg test-link" data-test="5">Тест 5</a>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const classNumber = urlParams.get('class');
+    const classTitle = document.getElementById('class-title');
+    const testLinks = document.querySelectorAll('.test-link');
+
+    classTitle.textContent = `${classNumber} сынып тесттерін таңдаңыз`;
+
+    testLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const testNumber = link.dataset.test;
+            window.location.href = `test.html?class=${classNumber}&test=${testNumber}`;
+        });
+    });
+</script>
+</body>
+
+</html>

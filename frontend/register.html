@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MektepTest.kz - Регистрация</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Регистрация
+                </div>
+                <div class="card-body">
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label for="username">Имя пользователя</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Пароль</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Подтвердите пароль</label>
+                            <input type="password" class="form-control" id="confirm-password" name="confirm-password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+                    </form>
+                    <div id="register-message" class="mt-3"></div>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="login.html">Уже есть аккаунт? Войти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    const registerForm = document.getElementById('register-form');
+    const registerMessage = document.getElementById('register-message');
+
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const username = registerForm.username.value;
+        const password = registerForm.password.value;
+        const confirmPassword = registerForm['confirm-password'].value;
+
+        if (password !== confirmPassword) {
+            registerMessage.className = 'alert alert-danger';
+            registerMessage.textContent = 'Passwords do not match';
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/auth/register', { // Полный URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                registerMessage.className = 'alert alert-success';
+                registerMessage.textContent = data.message;
+                // Redirect to login page after successful registration
+                window.location.href = 'login.html';
+            } else {
+                registerMessage.className = 'alert alert-danger';
+                registerMessage.textContent = data.message;
+            }
+
+        } catch (error) {
+            console.error('Registration error:', error);
+            registerMessage.className = 'alert alert-danger';
+            registerMessage.textContent = 'Registration failed. Please try again.';
+        }
+    });
+</script>
+</body>
+
+</html>
